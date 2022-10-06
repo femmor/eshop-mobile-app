@@ -5,7 +5,13 @@ const mongoose = require('mongoose');
 
 /* Get products */
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find().populate('category');
+  let filter = {};
+
+  if (req.query.categories) {
+    filter = { category: req.query.categories.split(',') };
+  }
+
+  const products = await Product.find(filter).populate('category');
 
   if (!products) {
     res.status(404).send({
