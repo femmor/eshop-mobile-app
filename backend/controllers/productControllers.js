@@ -173,9 +173,10 @@ const getProductCount = asyncHandler(async (req, res) => {
 
 /* Get featured products */
 const getFeatured = asyncHandler(async (req, res) => {
+  const count = req.params.count ? req.params.count : 0;
   const featuredProducts = await Product.find({
     isFeatured: true,
-  });
+  }).limit(+count);
 
   if (!featuredProducts) {
     res.status(404).send({

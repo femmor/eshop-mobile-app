@@ -17,6 +17,6 @@ router.get('/:id', getProduct);
 router.put('/:id', updateProduct);
 router.delete('/:id', deleteProduct);
 router.get('/get/count', getProductCount);
-router.get('/get/featured', getFeatured);
+router.get('/get/featured/:count', getFeatured);
 
 module.exports = router;
