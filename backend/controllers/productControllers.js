@@ -69,7 +69,22 @@ const addProduct = asyncHandler(async (req, res) => {
   return res.status(200).send(product);
 });
 
+/* Get single product */
+const getProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404).send({
+      success: false,
+      message: 'Product not found',
+    });
+  }
+
+  return res.status(200).send(product);
+});
+
 module.exports = {
   getProducts,
   addProduct,
+  getProduct,
 };
