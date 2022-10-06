@@ -158,10 +158,24 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
+/* Get Product Count */
+const getProductCount = asyncHandler(async (req, res) => {
+  const productCount = await Product.countDocuments();
+
+  if (!productCount) {
+    res.status(404).send({
+      success: false,
+    });
+  }
+
+  return res.status(200).send({ productCount: productCount });
+});
+
 module.exports = {
   getProducts,
   addProduct,
   getProduct,
   updateProduct,
   deleteProduct,
+  getProductCount,
 };
