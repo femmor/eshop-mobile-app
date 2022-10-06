@@ -4,7 +4,7 @@ const Category = require('../models/categoryModel');
 
 /* Get products */
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
+  const products = await Product.find().populate('category');
 
   if (!products) {
     res.status(404).send({
@@ -71,7 +71,7 @@ const addProduct = asyncHandler(async (req, res) => {
 
 /* Get single product */
 const getProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.id).populate('category');
 
   if (!product) {
     res.status(404).send({
