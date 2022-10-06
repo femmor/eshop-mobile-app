@@ -86,7 +86,7 @@ const getProduct = asyncHandler(async (req, res) => {
 
 /* Update product */
 const updateProduct = asyncHandler(async (req, res) => {
-  if (!mongoose.isValidObjectId(req.body.id)) {
+  if (!mongoose.isValidObjectId(req.params.id)) {
     res.status(404).send({
       success: false,
       message: 'Invalid product id',
@@ -137,7 +137,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 /* Delete product */
 const deleteProduct = asyncHandler(async (req, res) => {
-  if (!mongoose.isValidObjectId(req.body.id)) {
+  if (!mongoose.isValidObjectId(req.params.id)) {
     res.status(404).send({
       success: false,
       message: 'Invalid product id',
@@ -171,6 +171,21 @@ const getProductCount = asyncHandler(async (req, res) => {
   return res.status(200).send({ productCount: productCount });
 });
 
+/* Get Product Count */
+const getFeatured = asyncHandler(async (req, res) => {
+  const featuredProducts = await Product.find({
+    isFeatured: true,
+  });
+
+  if (!featuredProducts) {
+    res.status(404).send({
+      success: false,
+    });
+  }
+
+  return res.status(200).send(featuredProducts);
+});
+
 module.exports = {
   getProducts,
   addProduct,
@@ -178,4 +193,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getProductCount,
+  getFeatured,
 };

@@ -50,7 +50,7 @@ const addCategory = asyncHandler(async (req, res) => {
 
 /* Delete Category */
 const deleteCategory = asyncHandler(async (req, res) => {
-  if (!mongoose.isValidObjectId(req.body.id)) {
+  if (!mongoose.isValidObjectId(req.params.id)) {
     res.status(404).send({
       success: false,
       message: 'Invalid category id',
@@ -73,7 +73,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
 
 /* Update Category */
 const updateCategory = asyncHandler(async (req, res) => {
-  if (!mongoose.isValidObjectId(req.body.id)) {
+  if (!mongoose.isValidObjectId(req.params.id)) {
     res.status(404).send({
       success: false,
       message: 'Invalid category id',
