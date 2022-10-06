@@ -11,7 +11,21 @@ const getCategories = asyncHandler(async (req, res) => {
     });
   }
 
-  res.send(categories);
+  res.status(200).send(categories);
+});
+
+/* Get Single Category */
+const getSingleCategory = asyncHandler(async (req, res) => {
+  const category = await Category.findById(req.params.id);
+
+  if (!category) {
+    res.status(500).json({
+      success: false,
+      message: 'Category not found',
+    });
+  } else {
+    res.status(200).send(category);
+  }
 });
 
 /* Add Category */
@@ -55,4 +69,5 @@ module.exports = {
   getCategories,
   addCategory,
   deleteCategory,
+  getSingleCategory,
 };
