@@ -65,9 +65,40 @@ const deleteCategory = asyncHandler(async (req, res) => {
   }
 });
 
+/* Update Category */
+const updateCategory = asyncHandler(async (req, res) => {
+  const { name, color, icon, image } = req.body;
+
+  const category = await Category.findByIdAndUpdate(
+    req.params.id,
+    {
+      name,
+      color,
+      icon,
+      image,
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!category) {
+    res.status(404).send({
+      success: false,
+      message: 'Category could not be updated',
+    });
+  } else {
+    res.send({
+      success: true,
+      message: 'Category updated successfully',
+    });
+  }
+});
+
 module.exports = {
   getCategories,
   addCategory,
   deleteCategory,
   getSingleCategory,
+  updateCategory,
 };
