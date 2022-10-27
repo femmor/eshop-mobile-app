@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcryptjs');
 
 // Get users list
 const getUsersList = asyncHandler(async (req, res) => {
@@ -19,7 +20,7 @@ const createUser = asyncHandler(async (req, res) => {
   const {
     name,
     email,
-    passwordHash,
+    password,
     street,
     apartment,
     city,
@@ -32,7 +33,7 @@ const createUser = asyncHandler(async (req, res) => {
   const user = new User({
     name,
     email,
-    passwordHash,
+    passwordHash: bcrypt.hashSync(password, 10),
     street,
     apartment,
     city,
