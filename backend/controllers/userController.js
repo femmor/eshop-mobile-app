@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 // Get users list
 const getUsersList = asyncHandler(async (req, res) => {
-  const userList = await User.find();
+  const userList = await User.find().select('-passwordHash');
 
   if (!userList) {
     res.status(500).json({
@@ -13,6 +13,20 @@ const getUsersList = asyncHandler(async (req, res) => {
   }
 
   res.send(userList);
+});
+
+// Get single user
+const getUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select('-passwordHash');
+
+  if (!user) {
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
+    });
+  } else {
+    res.status(200).send(user);
+  }
 });
 
 // Add a user
@@ -54,5 +68,6 @@ const createUser = asyncHandler(async (req, res) => {
 
 module.exports = {
   getUsersList,
+  getUser,
   createUser,
 };
