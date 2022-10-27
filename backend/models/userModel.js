@@ -4,34 +4,40 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: true,
     },
     email: {
       type: String,
       unique: true,
-      required: [true, 'Email is required'],
+      required: true,
     },
     passwordHash: {
       type: String,
-      required: [true, 'Password is required'],
+      required: true,
     },
     street: {
       type: String,
+      default: '',
     },
     apartment: {
       type: String,
+      default: '',
     },
     city: {
       type: String,
+      default: '',
     },
     zip: {
       type: String,
+      default: '',
     },
     country: {
       type: String,
+      default: '',
     },
     phone: {
       type: Number,
+      required: true,
     },
     isAdmin: {
       type: Boolean,
