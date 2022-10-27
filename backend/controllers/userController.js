@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // Get users list
 const getUsersList = asyncHandler(async (req, res) => {
@@ -66,8 +67,39 @@ const createUser = asyncHandler(async (req, res) => {
   res.send(user);
 });
 
+// Login user
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.status(400).json({
+      success: false,
+      message: 'User not found',
+    });
+  }
+
+  if (user && bcrypt.compareSync(password, user.passwordHash)) {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
+
+    res.status(200).send({
+      user: user.email,
+      token,
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'Password is incorrect',
+    });
+  }
+});
+
 module.exports = {
   getUsersList,
   getUser,
   createUser,
+  loginUser,
 };
