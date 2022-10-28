@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 // Get users list
 const getUsersList = asyncHandler(async (req, res) => {
@@ -101,9 +102,47 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+/* Get User Count */
+const getUserCount = asyncHandler(async (req, res) => {
+  const userCount = await User.countDocuments();
+
+  if (!userCount) {
+    res.status(404).send({
+      success: false,
+    });
+  }
+
+  return res.status(200).send({ userCount: userCount });
+});
+
+/* Delete user */
+const deleteUser = asyncHandler(async (req, res) => {
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    res.status(404).send({
+      success: false,
+      message: 'Invalid user id',
+    });
+  }
+  const user = await User.findByIdAndDelete(req.params.id);
+
+  if (!user) {
+    res.status(404).send({
+      success: false,
+      message: 'User could not be deleted',
+    });
+  } else {
+    res.send({
+      success: true,
+      message: 'User deleted successfully',
+    });
+  }
+});
+
 module.exports = {
   getUsersList,
   getUser,
   createUser,
   loginUser,
+  getUserCount,
+  deleteUser,
 };
