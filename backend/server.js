@@ -20,6 +20,8 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(authJwt());
 
+// Error middleware
+
 // Routes
 app.use(`${api}/categories`, categoryRoutes);
 app.use(`${api}/products`, productRoutes);
