@@ -1,5 +1,7 @@
 const express = require('express');
+const app = express();
 const dotenv = require('dotenv');
+dotenv.config();
 const cors = require('cors');
 const connectDB = require('./config/connectDB');
 const morgan = require('morgan');
@@ -7,10 +9,7 @@ const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const userRoutes = require('./routes/userRoutes');
 const errorHandler = require('./middleware/errorHandler');
-
-const app = express();
-
-dotenv.config();
+const authJwt = require('./middleware/authMiddleware');
 
 const api = process.env.API_URL;
 
@@ -19,6 +18,7 @@ app.use(cors());
 app.options('*', cors());
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(authJwt());
 
 // Routes
 app.use(`${api}/categories`, categoryRoutes);
