@@ -6,6 +6,7 @@ const authJwt = () => {
   return jwt({
     secret,
     algorithms: ['HS256'],
+    isRevoked: isRevoked,
   }).unless({
     path: [
       {
@@ -21,5 +22,11 @@ const authJwt = () => {
     ],
   });
 };
+
+async function isRevoked(req, token) {
+  if (!token.payload.isAdmin) {
+    return true;
+  }
+}
 
 module.exports = authJwt;

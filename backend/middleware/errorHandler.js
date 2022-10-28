@@ -11,7 +11,10 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  return res.status(500).json(err);
+  res.status(500).json({
+    message: err.message,
+  });
+  next();
   // const statusCode = res.statusCode ? res.statusCode : 500;
   // res.status(statusCode);
   // res.json({
