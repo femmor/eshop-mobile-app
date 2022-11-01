@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const userRoutes = require('./routes/userRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const authJwt = require('./middleware/authMiddleware');
 
@@ -26,6 +27,7 @@ app.use(authJwt());
 app.use(`${api}/categories`, categoryRoutes);
 app.use(`${api}/products`, productRoutes);
 app.use(`${api}/users`, userRoutes);
+app.use(`${api}/orders`, orderRoutes);
 
 // PORT & SERVER
 
