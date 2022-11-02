@@ -87,8 +87,30 @@ const createOrder = asyncHandler(async (req, res) => {
   res.send(order);
 });
 
+/* Update Order */
+const updateOrder = asyncHandler(async (req, res) => {
+  const order = await Order.findByIdAndUpdate(
+    req.params.id,
+    {
+      status: req.body.status,
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!order) {
+    res.status(400).send({
+      success: false,
+      message: 'Order could not be updated',
+    });
+  }
+  res.send(order);
+});
+
 module.exports = {
   getOrders,
   getOrder,
   createOrder,
+  updateOrder,
 };

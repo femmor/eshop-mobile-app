@@ -3,6 +3,7 @@ const {
   getOrders,
   createOrder,
   getOrder,
+  updateOrder,
 } = require('../controllers/orderController');
 
 const router = express.Router();
@@ -11,5 +12,6 @@ const router = express.Router();
 router.get('/', getOrders);
 router.get('/:id', getOrder);
 router.post('/', createOrder);
+router.put('/:id', updateOrder);
 
 module.exports = router;
